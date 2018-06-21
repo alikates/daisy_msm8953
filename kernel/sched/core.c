@@ -1,4 +1,5 @@
 /*
+/*
  *  kernel/sched/core.c
  *
  *  Kernel scheduler and related syscalls
@@ -2294,10 +2295,10 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
 	p->se.nr_migrations		= 0;
 	p->se.vruntime			= 0;
 	p->last_sleep_ts		= 0;
-	p->last_cpu_selected_ts		= 0;
-	p->boost                = 0;
-	p->boost_expires        = 0;
-	p->boost_period         = 0;
+	p->last_cpu_deselected_ts		= 0;
+	p->boost		= 0;
+	p->boost_expires		= 0;
+	p->boost_period		= 0;
 
 	INIT_LIST_HEAD(&p->se.group_node);
 
@@ -3600,6 +3601,7 @@ static void __sched notrace __schedule(bool preempt)
 	rq->clock_skip_update = 0;
 
 	if (likely(prev != next)) {
+		prev->last_cpu_deselected_ts = wallclock;
 		if (!prev->on_rq)
 			prev->last_sleep_ts = wallclock;
 

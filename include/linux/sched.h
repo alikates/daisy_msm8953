@@ -1713,12 +1713,12 @@ struct task_struct {
 	const struct sched_class *sched_class;
 	struct sched_entity se;
 	struct sched_rt_entity rt;
-	u64				 last_sleep_ts;
-	u64 last_cpu_selected_ts;
+	u64 last_sleep_ts;
+	u64 last_cpu_deselected_ts;
+	int boost;
+	u64 boost_period;
+	u64 boost_expires;
 
-	int				boost;
-	u64				boost_period;
-	u64				boost_expires;
 #ifdef CONFIG_SCHED_WALT
 	struct ravg ravg;
 	/*
