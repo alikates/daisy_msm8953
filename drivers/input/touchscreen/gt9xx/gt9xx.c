@@ -2860,7 +2860,7 @@ static void gtp_esd_check_func(struct work_struct *work)
 	}
 
 	if (ts_esd->esd_on == true && !test_bit(SLEEP_MODE, &ts->flags)) {
-		schedule_delayed_work(&ts_esd->delayed_work, 2 * HZ);
+		schedule_delayed_work(&ts_esd->delayed_work, msecs_to_jiffies(2000));
 		dev_dbg(&ts->client->dev, "ESD work rescheduled\n");
 	}
 }
@@ -2885,7 +2885,7 @@ void gtp_esd_on(struct goodix_ts_data *ts)
 	mutex_lock(&ts_esd->mutex);
 	if (ts_esd->esd_on == false) {
 		ts_esd->esd_on = true;
-		schedule_delayed_work(&ts_esd->delayed_work, 2 * HZ);
+		schedule_delayed_work(&ts_esd->delayed_work, msecs_to_jiffies(2000));
 		dev_info(&ts->client->dev, "ESD on");
 	}
 	mutex_unlock(&ts_esd->mutex);
@@ -2952,7 +2952,7 @@ static void gtp_charger_check_func(struct work_struct *work)
 
    if (!test_bit(SLEEP_MODE, &ts->flags))
     {
-       schedule_delayed_work(&ts_charger->delayed_work, 2* HZ);
+       schedule_delayed_work(&ts_charger->delayed_work, msecs_to_jiffies(2000));
     }
     else
     {
@@ -2981,7 +2981,7 @@ void gtp_charger_on(struct goodix_ts_data *ts)
 	mutex_lock(&ts_charger->mutex);
 	if (ts_charger->charger_on == false) {
 		ts_charger->charger_on = true;
-		schedule_delayed_work(&ts_charger->delayed_work, 1 * HZ);
+		schedule_delayed_work(&ts_charger->delayed_work, msecs_to_jiffies(1000));
 		dev_info(&ts->client->dev, "Charger on");
 	}
 	mutex_unlock(&ts_charger->mutex);
