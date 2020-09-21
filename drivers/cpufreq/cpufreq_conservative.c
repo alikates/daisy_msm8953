@@ -31,8 +31,8 @@ struct cs_dbs_tuners {
 };
 
 /* Conservative governor macros */
-#define DEF_FREQUENCY_UP_THRESHOLD		(98)
-#define DEF_FREQUENCY_DOWN_THRESHOLD		(95)
+#define DEF_FREQUENCY_UP_THRESHOLD		(80)
+#define DEF_FREQUENCY_DOWN_THRESHOLD		(20)
 #define DEF_FREQUENCY_STEP			(5)
 #define DEF_SAMPLING_DOWN_FACTOR		(1)
 #define MAX_SAMPLING_DOWN_FACTOR		(10)
@@ -55,8 +55,8 @@ static inline unsigned int get_freq_step(struct cs_dbs_tuners *cs_tuners,
  * sampling_down_factor, we check, if current idle time is more than 80%
  * (default), then we try to decrease frequency
  *
- * Any frequency increase takes it to the maximum frequency. Frequency reduction
- * happens at minimum steps of 5% (default) of maximum frequency
+ * Frequency updates happen at minimum steps of 5% (default) of maximum
+ * frequency
  */
 static unsigned int cs_dbs_update(struct cpufreq_policy *policy)
 {
