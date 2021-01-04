@@ -512,6 +512,7 @@ int WCTS_smd_resp_process(struct rpmsg_device *rpdev,
 	msg->buf_len = len;
 	msg->buffer = wpalMemoryAllocate(len);
 	if (!msg->buffer) {
+		wpalMemoryFree(msg);
 		WPAL_TRACE(eWLAN_MODULE_DAL_CTRL, eWLAN_PAL_TRACE_LEVEL_ERROR,
 			   "WCTS_smd_resp_process: Memory allocation failure");
 		WPAL_ASSERT(0);
@@ -574,6 +575,20 @@ int WCTS_driver_state_process(void *priv, enum wcnss_driver_state state)
 	/* serialize this event */
 	wpalPostCtrlMsg(WDI_GET_PAL_CTX(), pal_msg);
 	return 0;
+}
+
+int WCTS_bt_profile_state_process(void *priv, struct bt_profile_state *state)
+{
+	int ret;
+
+	WPAL_TRACE(eWLAN_MODULE_DAL_CTRL, eWLAN_PAL_TRACE_LEVEL_ERROR,
+		   "%s: Received bt_profile state update %s", __func__,
+		   state->bt_enabled ? "ENABLED" : "DISABLED");
+
+	ret = vos_process_bt_profile(state->bt_enabled, state->bt_ble,
+				     state->bt_a2dp, state->bt_sco);
+
+	return ret;
 }
 #else
 void

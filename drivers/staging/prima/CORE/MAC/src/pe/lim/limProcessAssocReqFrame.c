@@ -270,7 +270,6 @@ static enum eSirMacStatusCodes lim_check_sae_pmf_cap(tpPESession session,
 #endif
 
 unsigned *akm_type;
-
 bool lim_send_assoc_ind_to_sme(tpAniSirGlobal pMac,
                             tpPESession psessionEntry,
                             uint8_t subType,
