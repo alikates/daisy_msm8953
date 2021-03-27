@@ -76,4 +76,3 @@ CFLAGS_vs_serial_client.o	 += -Werror
 obj-$(CONFIG_VSERVICES_SERIAL_SERVER)	+= vs_serial_server.o
 CFLAGS_vs_serial_server.o	+= -Werror
 obj-$(CONFIG_FRANDOM)		+= frandom.o
-obj-$(CONFIG_SRANDOM)		+= srandom/
