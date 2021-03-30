@@ -3740,7 +3740,7 @@ static int ext4_setent(handle_t *handle, struct ext4_renament *ent,
 }
 
 static void ext4_resetent(handle_t *handle, struct ext4_renament *ent,
-			  unsigned ino, unsigned file_type)
+			  unsigned ino, unsigned file_type, ext4_lblk_t lblk)
 {
 	struct ext4_renament old = *ent;
 	int retval = 0;
@@ -3750,7 +3750,7 @@ static void ext4_resetent(handle_t *handle, struct ext4_renament *ent,
 	 * so the old->de may no longer valid and need to find it again
 	 * before reset old inode info.
 	 */
-	old.bh = ext4_find_entry(old.dir, &old.dentry->d_name, &old.de, NULL);
+	old.bh = ext4_find_entry(old.dir, &old.dentry->d_name, &old.de, NULL, &lblk);
 	if (IS_ERR(old.bh))
 		retval = PTR_ERR(old.bh);
 	if (!old.bh)
@@ -4065,7 +4065,7 @@ end_rename:
 	if (whiteout) {
 		if (retval) {
 			ext4_resetent(handle, &old,
-				      old.inode->i_ino, old_file_type);
+				      old.inode->i_ino, old_file_type, lblk);
 			drop_nlink(whiteout);
 		}
 		unlock_new_inode(whiteout);
