@@ -8296,7 +8296,7 @@ static inline void dump_reg(struct smbchg_chip *chip, u16 addr,
 	u8 reg;
 
 	smbchg_read(chip, &reg, addr, 1);
-	pr_smb(PR_DUMP, "%s - %04X = %02X\n", name, addr, reg);
+	pr_info("%s - %04X = %02X\n", name, addr, reg);
 }
 
 /* dumps useful registers for debug */
